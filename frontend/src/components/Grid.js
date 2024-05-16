@@ -1,9 +1,19 @@
+// Importando o módulo 'React' para criação de componentes
 import React from "react";
+
+// Importando o módulo 'axios' para realizar requisições HTTP
 import axios from "axios";
+
+// Importando o módulo 'styled-components' para estilização de componentes
 import styled from "styled-components";
+
+// Importando ícones de exclusão e edição do 'react-icons/fa'
 import { FaTrash, FaEdit } from "react-icons/fa";
+
+// Importando o componente 'toast' do 'react-toastify' para exibir notificações na interface do usuário
 import { toast } from "react-toastify";
 
+// Definindo estilos para a tabela utilizando 'styled-components'
 const Table = styled.table`
   width: 100%;
   background-color: #fff;
@@ -15,12 +25,16 @@ const Table = styled.table`
   word-break: break-all;
 `;
 
+// Estilização para o cabeçalho da tabela
 export const Thead = styled.thead``;
 
+// Estilização para o corpo da tabela
 export const Tbody = styled.tbody``;
 
+// Estilização para linhas da tabela
 export const Tr = styled.tr``;
 
+// Estilização para células de cabeçalho da tabela
 export const Th = styled.th`
   text-align: start;
   border-bottom: inset;
@@ -31,6 +45,7 @@ export const Th = styled.th`
   }
 `;
 
+// Estilização para células de dados da tabela
 export const Td = styled.td`
   padding-top: 15px;
   text-align: ${(props) => (props.alignCenter ? "center" : "start")};
@@ -41,11 +56,14 @@ export const Td = styled.td`
   }
 `;
 
+// Componente funcional Grid para renderizar a tabela de usuários
 const Grid = ({ users, setUsers, setOnEdit }) => {
+  // Função para manipular a edição de um usuário
   const handleEdit = (item) => {
     setOnEdit(item);
   };
 
+  // Função para manipular a exclusão de um usuário
   const handleDelete = async (id) => {
     await axios
       .delete("http://localhost:8800/" + id)
@@ -60,6 +78,7 @@ const Grid = ({ users, setUsers, setOnEdit }) => {
     setOnEdit(null);
   };
 
+  // Renderização da tabela de usuários
   return (
     <Table>
       <Thead>
@@ -92,4 +111,5 @@ const Grid = ({ users, setUsers, setOnEdit }) => {
   );
 };
 
+// Exportando o componente 'Grid' para uso em outros componentes React
 export default Grid;

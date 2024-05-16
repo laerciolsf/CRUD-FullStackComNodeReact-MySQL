@@ -1,8 +1,16 @@
+// Importando o módulo 'axios' para realizar requisições HTTP
 import axios from "axios";
+
+// Importando componentes do React para criação de componentes funcionais e gerenciamento de efeitos colaterais
 import React, { useEffect, useRef } from "react";
+
+// Importando estilos estilizados com 'styled-components'
 import styled from "styled-components";
+
+// Importando o componente 'toast' do 'react-toastify' para exibir notificações na interface do usuário
 import { toast } from "react-toastify";
 
+// Definindo estilos para o formulário utilizando 'styled-components'
 const FormContainer = styled.form`
   display: flex;
   align-items: flex-end;
@@ -14,11 +22,13 @@ const FormContainer = styled.form`
   border-radius: 5px;
 `;
 
+// Área de entrada de dados estilizada
 const InputArea = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
+// Estilo para as entradas de texto
 const Input = styled.input`
   width: 120px;
   padding: 0 10px;
@@ -27,8 +37,10 @@ const Input = styled.input`
   height: 40px;
 `;
 
+// Estilo para rótulos
 const Label = styled.label``;
 
+// Estilo para botões
 const Button = styled.button`
   padding: 10px;
   cursor: pointer;
@@ -39,9 +51,12 @@ const Button = styled.button`
   height: 42px;
 `;
 
+// Componente funcional do formulário
 const Form = ({ getUsers, onEdit, setOnEdit }) => {
+  // Referência para o formulário
   const ref = useRef();
 
+  // Efeito para preencher os campos do formulário quando estiver em modo de edição
   useEffect(() => {
     if (onEdit) {
       const user = ref.current;
@@ -53,11 +68,13 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
     }
   }, [onEdit]);
 
+  // Função para lidar com o envio do formulário
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const user = ref.current;
 
+    // Verificando se todos os campos foram preenchidos
     if (
       !user.nome.value ||
       !user.email.value ||
@@ -67,6 +84,7 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
       return toast.warn("Preencha todos os campos!");
     }
 
+    // Se estiver em modo de edição, envia uma requisição PUT, caso contrário, envia uma requisição POST
     if (onEdit) {
       await axios
         .put("http://localhost:8800/" + onEdit.id, {
@@ -89,15 +107,18 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
         .catch(({ data }) => toast.error(data));
     }
 
+    // Limpa os campos do formulário após o envio
     user.nome.value = "";
     user.email.value = "";
     user.fone.value = "";
     user.data_nascimento.value = "";
 
+    // Reinicia o estado de edição e atualiza a lista de usuários
     setOnEdit(null);
     getUsers();
   };
 
+  // Renderização do formulário
   return (
     <FormContainer ref={ref} onSubmit={handleSubmit}>
       <InputArea>
@@ -122,4 +143,5 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
   );
 };
 
+// Exportando o componente 'Form' para uso em outros componentes React
 export default Form;
